@@ -56,7 +56,50 @@ def get_or_create_tracking_id(service, site_name, site_url):
                     'name': site_name
                 }
             ).execute()
+    return web_property.get('id'), account_id
+
+
+def update_tracking_id(service, account_id, tracking_id, site_name, site_url):
+    """Updates the tracking id.
+
+    :service: the google analytics service object.
+    :account_id: Google analytics account id
+    :tracking_id: google analytics tracking id
+    :site_name: name of the site
+    :site_url: url of the site
+
+    Returns:
+      The updated tracking id.
+    """
+    web_property = service.management().webproperties().update(
+        accountId=account_id,
+        webPropertyId=tracking_id,
+        body={
+            'websiteUrl': site_url,
+            'name': site_name
+        }
+    )
     return web_property.get('id')
+
+
+def delete_tracking_id(service, account_id, tracking_id):
+    """Deletes the tracking id.
+
+    :service: the google analytics service object.
+    :account_id: Google analytics account id
+    :tracking_id: google analytics tracking id
+
+    Returns:
+      None
+    """
+    service.management().webproperties().update(
+        accountId=account_id,
+        webPropertyId=tracking_id,
+        body={
+            'websiteUrl': site_url,
+            'name': site_name
+        }
+    )
 
 
 def get_or_create_container(service, account_id, container_name):
@@ -87,6 +130,15 @@ def get_or_create_container(service, account_id, container_name):
 
 
 def update_container(service, container, new_container_name):
+    """Updates the container.
+
+    :service: the Tag Manager service object.
+    :container: the container object to be updated
+    :new_container_name: new container name
+
+    Returns:
+      The updated container.
+    """
     return service.accounts().containers().update(
         path=container['path'],
         body={
@@ -96,7 +148,15 @@ def update_container(service, container, new_container_name):
 
 
 def delete_container(service, container):
-    return service.accounts().containers().delete(
+    """Deleted the Container.
+
+    :service: the Tag Manager service object.
+    :container: the container to be deleted
+
+    Returns:
+      None
+    """
+    service.accounts().containers().delete(
         path=container['path']
     ).execute()
 
@@ -127,6 +187,15 @@ def get_or_create_workspace(service, container, workspace_name):
 
 
 def update_workspace(service, workspace, new_workspace_name):
+    """Updates the Workspace.
+
+    :service: the Tag Manager service object.
+    :workspace: the workspace object
+    :new_workspace_name: new workspace name
+
+    Returns:
+      The updated workspace.
+    """
     return service.accounts().containers().workspaces().update(
         path=workspace['path'],
         body={
@@ -167,6 +236,16 @@ def get_or_create_tag(service, workspace, tracking_id, tag_name):
 
 
 def update_tag(service, tag, tracking_id, tag_name):
+    """Updates the UA Tag.
+
+    :service: the Tag Manager service object.
+    :tag: the tag object
+    :tracking_id: new tracking id
+    :tag_name: new tag name
+
+    Returns:
+      The updated tag.
+    """
     tag_body = {
         'name': tag_name,
         'type': 'ua',
