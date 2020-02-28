@@ -1,7 +1,7 @@
 # Pulumi project file
 # https://www.pulumi.com/docs/intro/concepts/project/
 
-name: project-name
+name: pulumi-google-tag-manager
 runtime: python
 description: A project deployed via Pulumi
 # Where __main__.py is located
