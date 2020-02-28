@@ -1,5 +1,31 @@
 from apiclient.discovery import build
 from oauth2client.service_account import ServiceAccountCredentials
+import re
+
+script_tag_template = '''
+----------------------------------------------------------------------
+
+Copy the following JavaScript and paste it as close to the opening <head> tag as possible on every page of your website
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','XXXXXXXX');</script>
+<!-- End Google Tag Manager -->
+
+------------------------------------------------------------------------
+
+Copy the following snippet and paste it immediately after the opening <body> tag on every page of your website
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=XXXXXXXX"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+------------------------------------------------------------------------
+'''
 
 
 def get_service(api_name, api_version, scopes, key_file_location):
@@ -33,30 +59,29 @@ def get_or_create_tracking_id(service, site_name, site_url):
     accounts = service.management().accounts().list(fields='items').execute()
 
     if accounts.get('items'):
-
         # Get the first Google Analytics account.
         account = accounts.get('items')[0].get('id')
-
         # Get a list of all the properties for the first account.
         properties = service.management().webproperties().list(
             accountId=account, fields='items').execute()
 
         if properties.get('items'):
-
           # check if property already exists then simply return tracking code from property
-            for property in properties.get('items'):
-                if site_name == property.get('name'):
-                    return property.get('id')
+            for p in properties.get('items'):
+                if site_name == p.get('name'):
+                    return p.get('id'), account
 
-            web_property = service.management().webproperties().insert(
-                accountId=account,
-                fields='id',
-                body={
-                    'websiteUrl': site_url,
-                    'name': site_name
-                }
-            ).execute()
-    return web_property.get('id'), account_id
+        web_property = service.management().webproperties().insert(
+            accountId=account,
+            fields='id',
+            body={
+                'websiteUrl': site_url,
+                'name': site_name
+            }
+        ).execute()
+        return web_property.get('id'), account
+    else:
+        raise "Google Analytics Account not available"
 
 
 def update_tracking_id(service, account_id, tracking_id, site_name, site_url):
@@ -78,8 +103,9 @@ def update_tracking_id(service, account_id, tracking_id, site_name, site_url):
             'websiteUrl': site_url,
             'name': site_name
         }
-    )
-    return web_property.get('id')
+    ).execute()
+
+    return web_property.get('id'), account_id
 
 
 def delete_tracking_id(service, account_id, tracking_id):
@@ -94,16 +120,12 @@ def delete_tracking_id(service, account_id, tracking_id):
     """
     service.management().webproperties().update(
         accountId=account_id,
-        webPropertyId=tracking_id,
-        body={
-            'websiteUrl': site_url,
-            'name': site_name
-        }
+        webPropertyId=tracking_id
     )
 
 
 def get_or_create_container(service, account_id, container_name):
-    """Find the container.
+    """Create or get container.
 
     :service: the Tag Manager service object.
     :account_path: the path of the Tag Manager account from which to retrieve the container
@@ -142,7 +164,7 @@ def update_container(service, container, new_container_name):
     return service.accounts().containers().update(
         path=container['path'],
         body={
-            'name': container_name,
+            'name': new_container_name,
             'usage_context': ['web']
         }).execute()
 
@@ -171,18 +193,17 @@ def get_or_create_workspace(service, container, workspace_name):
     Returns:
       The workspace object.
     """
-    workspaces = service.accounts().containers().list(
-        parent=conatiner['path']).execute()
+    workspaces = service.accounts().containers().workspaces().list(
+        parent=container['path']).execute()
 
-    # Find and return the Greetings container if it exists.
-    for workspace in workspaces['workspace']:
-        if workspace['name'] == workspace_name:
-            return workspace
+    for ws in workspaces['workspace']:
+        if ws['name'] == workspace_name:
+            return ws
 
     return service.accounts().containers().workspaces().create(
         parent=container['path'],
         body={
-            'name': workspace_name,
+            'name': workspace_name
         }).execute()
 
 
@@ -199,7 +220,7 @@ def update_workspace(service, workspace, new_workspace_name):
     return service.accounts().containers().workspaces().update(
         path=workspace['path'],
         body={
-            'name': workspace_name,
+            'name': new_workspace_name,
         }).execute()
 
 
@@ -213,12 +234,13 @@ def get_or_create_tag(service, workspace, tracking_id, tag_name):
     Returns:
       The created tag.
     """
-    tags = service.accounts().containers().workspace(
+    tags = service.accounts().containers().workspaces(
     ).tags().list(parent=workspace['path']).execute()
 
-    for tag in tags['tag']:
-        if tag['name'] == tag_name:
-            return tag
+    if tags.get('tag'):
+        for tag in tags['tag']:
+            if tag['name'] == tag_name:
+                return tag
 
     tag_body = {
         'name': tag_name,
@@ -255,7 +277,11 @@ def update_tag(service, tag, tracking_id, tag_name):
             'value': str(tracking_id),
         }],
     }
-    return service.accounts().containers().workspaces().tags.update(
+    return service.accounts().containers().workspaces().tags().update(
         path=tag['path'],
         body=tag_body
-    )
+    ).execute()
+
+
+def render_script_tag(container_id):
+    return re.sub(r'XXXXXXXX', container_id, script_tag_template)
