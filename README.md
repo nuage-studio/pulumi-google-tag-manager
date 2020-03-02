@@ -10,16 +10,29 @@ Creates google tag with a google analytics tracking id and generates the scripts
 .
 ├── Pulumi.yaml
 ├── README.md
-├── pulumi
+pulumi
+│   ├── Pulumi.dev.yaml
 │   ├── __main__.py
 │   ├── dynamic_providers
-│   │   └── google
-│   │       ├── api_wrapper.py
-│   │       └── tag_manager.py
-│   ├── stacks
-|   ├   └──pulumi.dev.yaml
-│   ├── tag_manager.py
-│   └── utils.py
+│   │   ├── __init__.py
+│   │   ├── ga
+│   │   │   ├── __init__.py
+│   │   │   ├── web_property.py
+│   │   │   └── web_property_provider.py
+│   │   ├── gtm
+│   │   │   ├── __init__.py
+│   │   │   ├── container.py
+│   │   │   ├── container_provider.py
+│   │   │   ├── tag.py
+│   │   │   ├── tag_provider.py
+│   │   │   ├── workspace.py
+│   │   │   └── workspace_provider.py
+│   │   ├── service.py
+│   │   └── templates
+│   │       ├── gtm_tag.html
+│   │       └── gtm_tag_noscript.html
+│   ├── secrets.json
+│   └── tag_manager.py
 ├── requirements.txt
 ```
 
@@ -45,10 +58,11 @@ $ pulumi stack init dev
 $ pulum stack select core
 $ pulumi config set aws:region <region>
 $ pulumi config set google_api_key_file <google-api-key-file>
+$ pulumi config set ga_account_id <google-analytics-manager-account-id>
 $ pulumi config set gtm_account_id <google-tag-manager-account-id>
 ```
 
-4. Edit ```__main__.py``` file with acordingly.
+4. Edit ```__main__.py``` file acordingly.
 
 ###  Deploy
 ```

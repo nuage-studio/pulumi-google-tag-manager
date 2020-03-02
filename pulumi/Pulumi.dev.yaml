@@ -1,0 +1,5 @@
+config:
+  aws:region: eu-west-1
+  pulumi-google-tag-manager:ga_account_id: "78985823"
+  pulumi-google-tag-manager:gtm_account_id: "6000646951"
+  pulumi-google-tag-manager:google_api_key_file: "/home/paraz/pulumi-google-tag-manager/pulumi/secrets.json"

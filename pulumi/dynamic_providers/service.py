@@ -1,13 +1,15 @@
 from oauth2client.service_account import ServiceAccountCredentials
 import pulumi
+from googleapiclient.discovery import build
 
 
 def get_key_file_location():
+    """Returns google key file location"""
     config = pulumi.Config()
     return config.require("google_api_key_file")
 
 
-def get_service(api_name, api_version, scopes):
+def get_service(api_name, api_version, scopes, key_location):
     """Create a google service
 
     :api_name: the Tag Manager service object.
@@ -19,7 +21,7 @@ def get_service(api_name, api_version, scopes):
       The google api service
     """
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
-        get_key_file_location, scopes=scopes
+        key_location, scopes=scopes
     )
     # Build the service object.
     service = build(api_name, api_version, credentials=credentials)

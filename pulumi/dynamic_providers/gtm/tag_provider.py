@@ -8,11 +8,10 @@ SCOPES = [
     "https://www.googleapis.com/auth/tagmanager.edit.containerversions",
 ]
 
-service = get_service("tagmanager", "v2", SCOPES)
-
 
 class TagProvider(ResourceProvider):
     def create(self, props):
+        service = get_service("tagmanager", "v2", SCOPES, props['key_location'])
         tag_body = {
             "name": props["tag_name"],
             "type": "ua",
@@ -34,9 +33,10 @@ class TagProvider(ResourceProvider):
             .execute()
         )
 
-        return CreateResult(id_=props["workspace_id"], outs={**props, **tag})
+        return CreateResult(id_=props["workspace_path"], outs={**props, **tag})
 
     def update(self, id, _olds, props):
+        service = get_service("tagmanager", "v2", SCOPES, props['key_location'])
         tag_body = {
             "name": props["tag_name"],
             "type": "ua",
@@ -60,6 +60,7 @@ class TagProvider(ResourceProvider):
         return UpdateResult(outs={**props, **tag})
 
     def delete(self, id, props):
+        service = get_service("tagmanager", "v2", SCOPES, props['key_location'])
         service.accounts().containers().workspaces().tags().delete(
             path=props["path"]
         ).execute()
