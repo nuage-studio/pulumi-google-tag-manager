@@ -1,4 +1,0 @@
-config:
-  aws:region: eu-west-1
-  pulumi-google-tag-manager:google_api_key_file: /home/pulumi-google-tag-manager/secrets.json
-  pulumi-google-tag-manager:gtm_acount_id: "1223445"

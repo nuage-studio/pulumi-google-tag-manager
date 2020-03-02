@@ -1,6 +1,7 @@
-from pulumi.dynamic import Resource, ResourceProvider, CreateResult, UpdateResult
+from pulumi.dynamic import Resource
 from pulumi import Input, Output
 from .tag_provider import TagProvider
+from ..service import get_key_file_location
 
 
 class TagArgs(object):
@@ -19,5 +20,10 @@ class Tag(Resource):
     path: Output[str]
 
     def __init__(self, name, args: TagArgs, opts=None):
-        full_args = {tag_id: None, path: None, **vars(args)}
+        full_args = {
+            "tag_id": None,
+            "path": None,
+            "key_location": get_key_file_location(),
+            **vars(args),
+        }
         super().__init__(TagProvider(), name, full_args, opts)

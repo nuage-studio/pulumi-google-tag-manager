@@ -1,7 +1,7 @@
-from pulumi.dynamic import Resource, ResourceProvider, CreateResult, UpdateResult
-from typing import Optional
+from pulumi.dynamic import Resource
 from pulumi import Input, Output
 from .workspace_provider import WorkspaceProvider
+from ..service import get_key_file_location
 
 
 class WorkspaceArgs(object):
@@ -20,5 +20,10 @@ class Workspace(Resource):
     path: Output[str]
 
     def __init__(self, name, args: WorkspaceArgs, opts=None):
-        full_args = {"workspace_id": None, "path": None, **vars(args)}
+        full_args = {
+            "workspace_id": None,
+            "path": None,
+            "key_location": get_key_file_location(),
+            **vars(args),
+        }
         super().__init__(WorkspaceProvider(), name, full_args, opts)
