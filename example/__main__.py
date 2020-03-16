@@ -1,8 +1,8 @@
 import pulumi
-from dynamic_providers.ga.web_property import WebProperty, WebPropertyArgs
-from dynamic_providers.gtm.container import Container, ContainerArgs
-from dynamic_providers.gtm.tag import Tag, TagArgs
-from dynamic_providers.gtm.workspace import Workspace, WorkspaceArgs
+from pulumi_google_tag_manager.dynamic_providers.ga import WebProperty, WebPropertyArgs
+from pulumi_google_tag_manager.dynamic_providers.gtm import Container, ContainerArgs
+from pulumi_google_tag_manager.dynamic_providers.gtm import Tag, TagArgs
+from pulumi_google_tag_manager.dynamic_providers.gtm import Workspace, WorkspaceArgs
 
 config = pulumi.Config()
 

@@ -4,10 +4,6 @@
 name: pulumi-google-tag-manager
 runtime: python
 description: A project deployed via Pulumi
-# Where __main__.py is located
-main: ./pulumi
-# Where stack configs are located
-config: ./pulumi
 # Default config for stacks
 template:
   config:

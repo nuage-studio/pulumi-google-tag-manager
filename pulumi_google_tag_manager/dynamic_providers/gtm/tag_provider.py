@@ -23,7 +23,7 @@ class TagProvider(ResourceProvider):
                 }
             ],
         }
-
+        
         tag = (
             service.accounts()
             .containers()
