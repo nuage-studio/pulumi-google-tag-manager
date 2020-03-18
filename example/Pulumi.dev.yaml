@@ -1,5 +1,0 @@
-config:
-  aws:region: eu-west-1
-  pulumi-google-tag-manager:google_api_key_file: "/home/rob/.gcm/Nuage-93b8b16fabf6.json"
-  pulumi-google-tag-manager:ga_account_id: "160620648"
-  pulumi-google-tag-manager:gtm_account_id: "6000755276"
