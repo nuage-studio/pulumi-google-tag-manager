@@ -8,10 +8,29 @@ from .tag_provider import TagProvider
 
 
 class CustomHtmlTagArgs(object):
+    """
+    Describes a GTM Custom HTML Tag.  See https://support.google.com/tagmanager/answer/6107167?hl=en#CustomHTML
+    """
+
     workspace_path: Input[str]
+    """
+    GTM Workspace's API relative path. Example: accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
+    """
+
     tag_name: Input[str]
+    """
+    The name of the tag in GTM
+    """
+
     html: Input[str]
+    """
+    The HTML content which will be rendered when the tag is triggered
+    """
+
     supportDocumentWrite: Input[bool]
+    """
+    Whether or not `document.write()` is supported in the tag's HTML
+    """
 
     def __init__(self, workspace_path, tag_name, html, supportDocumentWrite = None):
         self.workspace_path = workspace_path
