@@ -1,15 +1,15 @@
-import setuptools
+from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-setuptools.setup(
+setup(
     name="pulumi_google_tag_manager",
     version="0.0.1",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/nuage-studio/pulumi-google-tag-manager",
-    packages=['pulumi_google_tag_manager'],
+    packages=find_packages(exclude=('example')),
     python_requires='>=3.7',
     install_requires=[
         'google-api-python-client>=1.7.11',
