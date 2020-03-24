@@ -9,6 +9,11 @@ An example Pulumi program which uses this package is present in the `example` fo
 ## Prerequesits
 
 * Install the package into your Pulumi project using `pip`
+```
+$ pip install pulumi-google-tag-manager
+```
+
+
 * Set your Google credentials in your stack config:
 
 ```
@@ -25,27 +30,28 @@ You will need to ensure that your API key represents a service worker with Proje
 
 ```
 .
-├── example
-│   ├── __main__.py
-│   ├── Pulumi.yaml
-│   └── README.md
-├── pulumi_google_tag_manager
-│   └── dynamic_providers
-│       ├── ga
-│       │   ├── web_property_provider.py
-│       │   └── web_property.py
-│       ├── gtm
-│       │   ├── container_provider.py
-│       │   ├── container.py
-│       │   ├── tag_provider.py
-│       │   ├── tag.py
-│       │   ├── workspace_provider.py
-│       │   └── workspace.py
-│       ├── service.py
-│       └── templates
-│           ├── gtm_tag.html
-│           └── gtm_tag_noscript.html
+.
 ├── README.md
+├── example
+│   ├── Pulumi.yaml
+│   ├── README.md
+│   └── __main__.py
+├── pulumi_google_tag_manager
+│   ├── dynamic_providers
+│   │   ├── __init__.py
+│   │   ├── container.py
+│   │   ├── container_provider.py
+│   │   ├── custom_html_tag.py
+│   │   ├── custom_html_tag_provider.py
+│   │   ├── tag.py
+│   │   ├── tag_provider.py
+│   │   ├── workspace.py
+│   │   └── workspace_provider.py
+│   ├── service.py
+│   └── templates
+│       ├── __init__.py
+│       ├── gtm_tag.html
+│       └── gtm_tag_noscript.html
 ├── requirements.txt
-└── setup.py
+├── setup.py
 ```

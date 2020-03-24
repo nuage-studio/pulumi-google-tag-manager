@@ -1,13 +1,17 @@
 import pulumi
-from pulumi_google_tag_manager.dynamic_providers.ga import (WebProperty,
-                                                            WebPropertyArgs)
-from pulumi_google_tag_manager.dynamic_providers.gtm import (Container,
-                                                             ContainerArgs,
-                                                             Tag, TagArgs,
-                                                             Workspace,
-                                                             WorkspaceArgs)
-from pulumi_google_tag_manager.dynamic_providers.gtm.custom_html_tag import (
-    CustomHtmlTag, CustomHtmlTagArgs)
+from pulumi_google_analytics.dynamic_providers import WebProperty, WebPropertyArgs
+from pulumi_google_tag_manager.dynamic_providers import (
+    Container,
+    ContainerArgs,
+    Tag,
+    TagArgs,
+    Workspace,
+    WorkspaceArgs,
+)
+from pulumi_google_tag_manager.dynamic_providers.custom_html_tag import (
+    CustomHtmlTag,
+    CustomHtmlTagArgs,
+)
 
 config = pulumi.Config()
 
@@ -56,7 +60,7 @@ custom_tag = CustomHtmlTag(
     args=CustomHtmlTagArgs(
         workspace_path=workspace.path,
         tag_name="hello world custom tag",
-        html="<p>This is a test</p>"
+        html="<p>This is a test</p>",
     ),
 )
 
