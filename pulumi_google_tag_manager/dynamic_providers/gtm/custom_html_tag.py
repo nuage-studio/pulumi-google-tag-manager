@@ -5,6 +5,7 @@ from pulumi_google_tag_manager.dynamic_providers.gtm.custom_html_tag_provider im
 
 from ..service import get_key_file_location
 from .tag_provider import TagProvider
+from typing import List
 
 
 class CustomHtmlTagArgs(object):
@@ -27,16 +28,28 @@ class CustomHtmlTagArgs(object):
     The HTML content which will be rendered when the tag is triggered
     """
 
-    supportDocumentWrite: Input[bool]
+    support_document_write: Input[bool]
     """
     Whether or not `document.write()` is supported in the tag's HTML
     """
 
-    def __init__(self, workspace_path, tag_name, html, supportDocumentWrite = None):
+    firing_trigger_id: Input[List[str]]
+    """
+    A list of trigger IDs which cause this tag to fire
+    """
+
+    def __init__(self,
+            workspace_path,
+            tag_name,
+            html,
+            support_document_write = None,
+            firing_trigger_id = []
+            ):
         self.workspace_path = workspace_path
         self.tag_name = tag_name
         self.html = html
-        self.supportDocumentWrite = supportDocumentWrite
+        self.support_document_write = support_document_write
+        self.firing_trigger_id = firing_trigger_id
 
 
 class CustomHtmlTag(Resource):

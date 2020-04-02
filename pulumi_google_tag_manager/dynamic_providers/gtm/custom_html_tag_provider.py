@@ -65,6 +65,7 @@ class CustomHtmlTagProvider(ResourceProvider):
             "name": props["tag_name"],
             "type": "html",
             "parameter": params,
+            "firingTriggerId": props["firing_trigger_id"]
         }
 
         return tag_body

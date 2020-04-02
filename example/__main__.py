@@ -55,19 +55,20 @@ tag = Tag(
     ),
 )
 
+custom_event = CustomEventTrigger("custom-event-trigger",
+    trigger_name="my-event-trigger",
+    workspace_path=workspace.path
+)
+
 # creates custom HTML tag inside workspace
 custom_tag = CustomHtmlTag(
     "example-custom-tag",
     args=CustomHtmlTagArgs(
         workspace_path=workspace.path,
         tag_name="hello world custom tag",
-        html="<p>This is a test</p>"
+        html="<p>This is a test</p>",
+        firing_trigger_id=[custom_event.trigger_id]
     ),
-)
-
-custom_event = CustomEventTrigger("custom-event-trigger",
-    trigger_name="my-event-trigger",
-    workspace_path=workspace.path
 )
 
 variable = DataLayerVariable("data-layer-var",
