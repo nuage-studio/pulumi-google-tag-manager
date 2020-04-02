@@ -10,6 +10,8 @@ from pulumi_google_tag_manager.dynamic_providers.gtm.custom_event_trigger import
     CustomEventTrigger
 from pulumi_google_tag_manager.dynamic_providers.gtm.custom_html_tag import (
     CustomHtmlTag, CustomHtmlTagArgs)
+from pulumi_google_tag_manager.dynamic_providers.gtm.data_layer_variable import \
+    DataLayerVariable
 
 config = pulumi.Config()
 
@@ -68,7 +70,14 @@ custom_event = CustomEventTrigger("custom-event-trigger",
     workspace_path=workspace.path
 )
 
+variable = DataLayerVariable("data-layer-var",
+    variable_name="my-dl-var",
+    workspace_path=workspace.path
+)
+
+
 pulumi.export("container_id", container.container_id)
 pulumi.export("custom_event_trigger_id", custom_event.trigger_id)
+pulumi.export("data_layer_variable_id", variable.variable_id)
 pulumi.export("gtm_tag", container.gtm_tag)
 pulumi.export("gtm_tag_no_script", container.gtm_tag_noscript)
