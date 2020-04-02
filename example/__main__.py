@@ -6,6 +6,8 @@ from pulumi_google_tag_manager.dynamic_providers.gtm import (Container,
                                                              Tag, TagArgs,
                                                              Workspace,
                                                              WorkspaceArgs)
+from pulumi_google_tag_manager.dynamic_providers.gtm.custom_event_trigger import \
+    CustomEventTrigger
 from pulumi_google_tag_manager.dynamic_providers.gtm.custom_html_tag import (
     CustomHtmlTag, CustomHtmlTagArgs)
 
@@ -13,6 +15,7 @@ config = pulumi.Config()
 
 ga_account_id = config.require("ga_account_id")
 gtm_account_id = config.require("gtm_account_id")
+
 
 # create or fetch web-property
 web_property = WebProperty(
@@ -60,6 +63,12 @@ custom_tag = CustomHtmlTag(
     ),
 )
 
+custom_event = CustomEventTrigger("custom-event-trigger",
+    trigger_name="my-event-trigger",
+    workspace_path=workspace.path
+)
+
 pulumi.export("container_id", container.container_id)
+pulumi.export("custom_event_trigger_id", custom_event.trigger_id)
 pulumi.export("gtm_tag", container.gtm_tag)
 pulumi.export("gtm_tag_no_script", container.gtm_tag_noscript)
