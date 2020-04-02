@@ -13,6 +13,7 @@ class CustomEventTrigger(Resource):
     """
     path: Output[str]
     trigger_id: Output[str]
+    trigger_name: Output[str]
 
     def __init__(self,
             name: Input[str],
