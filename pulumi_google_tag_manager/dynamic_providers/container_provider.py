@@ -26,11 +26,11 @@ class ContainerProvider(ResourceProvider):
 
         container_public_id = container["publicId"]
 
-        with pkg_resources.open_text('pulumi_google_tag_manager.dynamic_providers.templates', 'gtm_tag.html') as f:
+        with pkg_resources.open_text('pulumi_google_tag_manager.templates', 'gtm_tag.html') as f:
             template = Template(f.read())
             gtm_tag = template.render(container_public_id=container_public_id)
 
-        with pkg_resources.open_text('pulumi_google_tag_manager.dynamic_providers.templates', 'gtm_tag_noscript.html') as f:
+        with pkg_resources.open_text('pulumi_google_tag_manager.templates', 'gtm_tag_noscript.html') as f:
             template = Template(f.read())
             gtm_tag_noscript = template.render(container_public_id=container_public_id)
 

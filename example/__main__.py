@@ -1,18 +1,22 @@
 import pulumi
-from pulumi_google_tag_manager.dynamic_providers.ga import (WebProperty,
-                                                            WebPropertyArgs)
-from pulumi_google_tag_manager.dynamic_providers.gtm import (
-    Container, ContainerArgs, CustomEventTrigger, CustomHtmlTag,
-    CustomHtmlTagArgs, DataLayerVariable, GAPageviewTag, GaPageviewTagArgs,
-    Workspace, WorkspaceArgs)
-from pulumi_google_tag_manager.dynamic_providers.gtm.ga_event_tag import \
-    GAEventTag
+from pulumi_google_analytics.dynamic_providers import WebProperty, WebPropertyArgs
+from pulumi_google_tag_manager.dynamic_providers import (
+    Container,
+    ContainerArgs,
+    Tag,
+    TagArgs,
+    Workspace,
+    WorkspaceArgs,
+)
+from pulumi_google_tag_manager.dynamic_providers.custom_html_tag import (
+    CustomHtmlTag,
+    CustomHtmlTagArgs,
+)
 
 config = pulumi.Config()
 
 ga_account_id = config.require("ga_account_id")
 gtm_account_id = config.require("gtm_account_id")
-
 
 # create or fetch web-property
 web_property = WebProperty(
@@ -28,7 +32,7 @@ web_property = WebProperty(
 container = Container(
     "example-container",
     args=ContainerArgs(
-        account_id=gtm_account_id, container_name="hello world container2"
+        account_id=gtm_account_id, container_name="hello world container"
     ),
 )
 
