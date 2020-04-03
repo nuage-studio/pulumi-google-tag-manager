@@ -27,6 +27,7 @@ You will need to ensure that your API key represents a service worker with Proje
 .
 ├── example
 │   ├── __main__.py
+│   ├── Pulumi.dev.yaml
 │   ├── Pulumi.yaml
 │   └── README.md
 ├── pulumi_google_tag_manager
@@ -37,8 +38,16 @@ You will need to ensure that your API key represents a service worker with Proje
 │       ├── gtm
 │       │   ├── container_provider.py
 │       │   ├── container.py
-│       │   ├── tag_provider.py
-│       │   ├── tag.py
+│       │   ├── custom_event_trigger_provider.py
+│       │   ├── custom_event_trigger.py
+│       │   ├── custom_html_tag_provider.py
+│       │   ├── custom_html_tag.py
+│       │   ├── data_layer_variable_provider.py
+│       │   ├── data_layer_variable.py
+│       │   ├── ga_event_tag_provider.py
+│       │   ├── ga_event_tag.py
+│       │   ├── ga_pageview_tag_provider.py
+│       │   ├── ga_pageview_tag.py
 │       │   ├── workspace_provider.py
 │       │   └── workspace.py
 │       ├── service.py
