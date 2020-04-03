@@ -4,7 +4,6 @@ from pulumi_google_tag_manager.dynamic_providers.gtm.custom_html_tag_provider im
     CustomHtmlTagProvider
 
 from ..service import get_key_file_location
-from .tag_provider import TagProvider
 from typing import List
 
 

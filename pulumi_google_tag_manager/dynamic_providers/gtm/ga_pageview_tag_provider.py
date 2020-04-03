@@ -9,7 +9,7 @@ SCOPES = [
 ]
 
 
-class TagProvider(ResourceProvider):
+class GAPageviewTagProvider(ResourceProvider):
     def create(self, props):
         service = get_service("tagmanager", "v2", SCOPES, props['key_location'])
         tag_body = {

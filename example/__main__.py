@@ -1,17 +1,12 @@
 import pulumi
-from pulumi_google_tag_manager.dynamic_providers.ga import (WebProperty,
-                                                            WebPropertyArgs)
-from pulumi_google_tag_manager.dynamic_providers.gtm import (Container,
-                                                             ContainerArgs,
-                                                             Tag, TagArgs,
-                                                             Workspace,
-                                                             WorkspaceArgs)
-from pulumi_google_tag_manager.dynamic_providers.gtm.custom_event_trigger import \
-    CustomEventTrigger
-from pulumi_google_tag_manager.dynamic_providers.gtm.custom_html_tag import (
-    CustomHtmlTag, CustomHtmlTagArgs)
-from pulumi_google_tag_manager.dynamic_providers.gtm.data_layer_variable import \
-    DataLayerVariable
+from pulumi_google_tag_manager.dynamic_providers.ga import (WebProperty, WebPropertyArgs)
+
+from pulumi_google_tag_manager.dynamic_providers.gtm import (Container, ContainerArgs,
+                                                         GAPageviewTag, GaPageviewTagArgs,
+                                                         Workspace, WorkspaceArgs,
+                                                         CustomHtmlTag, CustomHtmlTagArgs,
+                                                         CustomEventTrigger,
+                                                         DataLayerVariable)
 
 config = pulumi.Config()
 
@@ -33,7 +28,7 @@ web_property = WebProperty(
 container = Container(
     "example-container",
     args=ContainerArgs(
-        account_id=gtm_account_id, container_name="hello world container"
+        account_id=gtm_account_id, container_name="hello world container2"
     ),
 )
 
@@ -46,9 +41,9 @@ workspace = Workspace(
 )
 
 # creates gtm tag inside workspace
-tag = Tag(
+tag = GAPageviewTag(
     "example-tag",
-    args=TagArgs(
+    args=GaPageviewTagArgs(
         workspace_path=workspace.path,
         tag_name="hello world tag",
         tracking_id=web_property.tracking_id,

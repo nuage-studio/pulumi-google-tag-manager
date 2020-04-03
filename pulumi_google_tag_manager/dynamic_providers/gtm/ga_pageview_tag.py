@@ -1,10 +1,10 @@
 from pulumi.dynamic import Resource
 from pulumi import Input, Output
-from .tag_provider import TagProvider
+from .ga_pageview_tag_provider import GAPageviewTagProvider
 from ..service import get_key_file_location
 
 
-class TagArgs(object):
+class GaPageviewTagArgs(object):
     workspace_path: Input[str]
     tag_name: Input[str]
     tracking_id: Input[str]
@@ -15,15 +15,18 @@ class TagArgs(object):
         self.tracking_id = tracking_id
 
 
-class Tag(Resource):
+class GAPageviewTag(Resource):
+    """
+    Represents a Google Analytics UA tag in GTM which tracks page views.
+    """
     tag_id: Output[str]
     path: Output[str]
 
-    def __init__(self, name, args: TagArgs, opts=None):
+    def __init__(self, name, args: GaPageviewTagArgs, opts=None):
         full_args = {
             "tag_id": None,
             "path": None,
             "key_location": get_key_file_location(),
             **vars(args),
         }
-        super().__init__(TagProvider(), name, full_args, opts)
+        super().__init__(GAPageviewTagProvider(), name, full_args, opts)
