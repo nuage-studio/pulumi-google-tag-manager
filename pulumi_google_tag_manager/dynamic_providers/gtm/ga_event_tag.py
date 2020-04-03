@@ -5,7 +5,7 @@ from pulumi_google_tag_manager.dynamic_providers.gtm.ga_event_tag_provider impor
 
 from ..service import get_key_file_location
 from .ga_pageview_tag_provider import GAPageviewTagProvider
-
+from typing import List
 
 class GAEventTag(Resource):
     """
@@ -22,11 +22,13 @@ class GAEventTag(Resource):
             event_category: Input[str],
             event_action: Input[str],
             event_value: Input[str],
+            firing_trigger_id: Input[List[str]] = [],
             opts=None):
         full_args = {
             "tag_id": None,
             "path": None,
             "key_location": get_key_file_location(),
+            "firing_trigger_id": firing_trigger_id,
             "workspace_path": workspace_path,
             "tag_name": tag_name,
             "tracking_id": tracking_id,

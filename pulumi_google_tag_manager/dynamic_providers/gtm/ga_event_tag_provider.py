@@ -87,5 +87,6 @@ class GAEventTagProvider(ResourceProvider):
                     "key": "trackingId",
                     "value": str(props["tracking_id"])
                 }
-            ]
+            ],
+            "firingTriggerId": props["firing_trigger_id"]
         }
