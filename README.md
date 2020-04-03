@@ -30,28 +30,35 @@ You will need to ensure that your API key represents a service worker with Proje
 
 ```
 .
-.
-├── README.md
 ├── example
+│   ├── __main__.py
+│   ├── Pulumi.dev.yaml
 │   ├── Pulumi.yaml
 │   ├── README.md
-│   └── __main__.py
+│   └── requirements.txt
 ├── pulumi_google_tag_manager
 │   ├── dynamic_providers
-│   │   ├── __init__.py
-│   │   ├── container.py
 │   │   ├── container_provider.py
-│   │   ├── custom_html_tag.py
+│   │   ├── container.py
+│   │   ├── custom_event_trigger_provider.py
+│   │   ├── custom_event_trigger.py
 │   │   ├── custom_html_tag_provider.py
-│   │   ├── tag.py
+│   │   ├── custom_html_tag.py
+│   │   ├── data_layer_variable_provider.py
+│   │   ├── data_layer_variable.py
+│   │   ├── ga_event_tag_provider.py
+│   │   ├── ga_event_tag.py
+│   │   ├── ga_pageview_tag_provider.py
+│   │   ├── ga_pageview_tag.py
 │   │   ├── tag_provider.py
-│   │   ├── workspace.py
-│   │   └── workspace_provider.py
+│   │   ├── tag.py
+│   │   ├── workspace_provider.py
+│   │   └── workspace.py
 │   ├── service.py
 │   └── templates
-│       ├── __init__.py
 │       ├── gtm_tag.html
 │       └── gtm_tag_noscript.html
+├── README.md
 ├── requirements.txt
-├── setup.py
+└── setup.py
 ```

@@ -1,1 +1,0 @@
-from .web_property import WebProperty, WebPropertyArgs
