@@ -1,10 +1,10 @@
+from typing import List
+
 from pulumi import Input, Output
 from pulumi.dynamic import Resource
-from pulumi_google_tag_manager.dynamic_providers.gtm.custom_html_tag_provider import \
-    CustomHtmlTagProvider
+from .custom_html_tag_provider import CustomHtmlTagProvider
 
 from ..service import get_key_file_location
-from typing import List
 
 
 class CustomHtmlTagArgs(object):

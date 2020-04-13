@@ -1,9 +1,7 @@
 from pulumi import Input, Output
 from pulumi.dynamic import Resource
-from pulumi_google_tag_manager.dynamic_providers.gtm.data_layer_variable_provider import \
-    DataLayerVariableProvider
-from pulumi_google_tag_manager.dynamic_providers.service import \
-    get_key_file_location
+from .data_layer_variable_provider import DataLayerVariableProvider
+from ..service import get_key_file_location
 
 
 class DataLayerVariable(Resource):

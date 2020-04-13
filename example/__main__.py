@@ -1,17 +1,21 @@
 import pulumi
-from pulumi_google_analytics.dynamic_providers import WebProperty, WebPropertyArgs
-from pulumi_google_tag_manager.dynamic_providers import (
-    Container,
-    ContainerArgs,
-    Tag,
-    TagArgs,
-    Workspace,
-    WorkspaceArgs,
-)
+from pulumi_google_analytics.dynamic_providers import (WebProperty,
+                                                       WebPropertyArgs)
+from pulumi_google_tag_manager.dynamic_providers import (Container,
+                                                         ContainerArgs, Tag,
+                                                         TagArgs, Workspace,
+                                                         WorkspaceArgs)
+from pulumi_google_tag_manager.dynamic_providers.custom_event_trigger import \
+    CustomEventTrigger
 from pulumi_google_tag_manager.dynamic_providers.custom_html_tag import (
-    CustomHtmlTag,
-    CustomHtmlTagArgs,
-)
+    CustomHtmlTag, CustomHtmlTagArgs)
+from pulumi_google_tag_manager.dynamic_providers.data_layer_variable import \
+    DataLayerVariable
+from pulumi_google_tag_manager.dynamic_providers.ga_event_tag import GAEventTag
+from pulumi_google_tag_manager.dynamic_providers.ga_pageview_tag import (
+    GAPageviewTag, GaPageviewTagArgs)
+from pulumi_google_tag_manager.dynamic_providers.pageview_trigger import \
+    PageviewTrigger
 
 config = pulumi.Config()
 
@@ -44,14 +48,25 @@ workspace = Workspace(
     ),
 )
 
+pageview_trigger = PageviewTrigger("example-pageview-trigger",
+    trigger_name="my-pageview-trigger",
+    workspace_path=workspace.path
+)
+
 # creates GA pageview tag inside workspace
 pageview_tag = GAPageviewTag(
-    "example-tag",
+    "example-pageview-tag",
     args=GaPageviewTagArgs(
         workspace_path=workspace.path,
-        tag_name="hello world tag",
+        tag_name="my-pageview-tag",
         tracking_id=web_property.tracking_id,
+        firing_trigger_id=pageview_trigger.trigger_id
     ),
+)
+
+custom_event_trigger = CustomEventTrigger("custom-event-trigger",
+    trigger_name="my-event-trigger",
+    workspace_path=workspace.path
 )
 
 # creates GA event tag inside workspace
@@ -62,12 +77,8 @@ event_tag = GAEventTag(
     tracking_id=web_property.tracking_id,
     event_category="test_category",
     event_action="{{Event}}",
-    event_value="test_value"
-)
-
-custom_event = CustomEventTrigger("custom-event-trigger",
-    trigger_name="my-event-trigger",
-    workspace_path=workspace.path
+    event_value="test_value",
+    firing_trigger_id=custom_event_trigger.trigger_id
 )
 
 # creates custom HTML tag inside workspace
@@ -77,7 +88,7 @@ custom_tag = CustomHtmlTag(
         workspace_path=workspace.path,
         tag_name="hello world custom tag",
         html="<p>This is a test</p>",
-        firing_trigger_id=[custom_event.trigger_id]
+        firing_trigger_id=[custom_event_trigger.trigger_id]
     ),
 )
 
@@ -88,7 +99,7 @@ variable = DataLayerVariable("data-layer-var",
 
 
 pulumi.export("container_id", container.container_id)
-pulumi.export("custom_event_trigger_id", custom_event.trigger_id)
+pulumi.export("custom_event_trigger_id", custom_event_trigger.trigger_id)
 pulumi.export("data_layer_variable_id", variable.variable_id)
 pulumi.export("gtm_tag", container.gtm_tag)
 pulumi.export("gtm_tag_no_script", container.gtm_tag_noscript)

@@ -50,6 +50,8 @@ You will need to ensure that your API key represents a service worker with Proje
 │   │   ├── ga_event_tag.py
 │   │   ├── ga_pageview_tag_provider.py
 │   │   ├── ga_pageview_tag.py
+│   │   ├── pageview_trigger_provider.py
+│   │   ├── pageview_trigger.py
 │   │   ├── tag_provider.py
 │   │   ├── tag.py
 │   │   ├── workspace_provider.py

@@ -1,13 +1,16 @@
 from pulumi import Input, Output
 from pulumi.dynamic import Resource
-from .custom_event_trigger_provider import CustomEventTriggerProvider
+from pulumi_google_tag_manager.dynamic_providers.pageview_trigger_provider import \
+    PageviewTriggerProvider
+
 from ..service import get_key_file_location
+from .custom_event_trigger_provider import CustomEventTriggerProvider
 
 
-class CustomEventTrigger(Resource):
+class PageviewTrigger(Resource):
     """
-    Represents a custom event trigger, which can be triggered using the `dataLayer`. 
-    See https://support.google.com/tagmanager/answer/7679219?hl=en
+    Represents Pageview GTM trigger. 
+    See https://support.google.com/tagmanager/answer/7679319?hl=en
     """
     path: Output[str]
     trigger_id: Output[str]
@@ -18,7 +21,7 @@ class CustomEventTrigger(Resource):
             trigger_name: Input[str],
             workspace_path: Input[str],
             opts=None):
-        super().__init__(CustomEventTriggerProvider(), name, {
+        super().__init__(PageviewTriggerProvider(), name, {
             "trigger_name": trigger_name,
             "key_location": get_key_file_location(),
             "workspace_path": workspace_path,

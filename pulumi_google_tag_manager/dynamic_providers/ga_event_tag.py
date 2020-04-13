@@ -1,7 +1,6 @@
 from pulumi import Input, Output
 from pulumi.dynamic import Resource
-from pulumi_google_tag_manager.dynamic_providers.gtm.ga_event_tag_provider import \
-    GAEventTagProvider
+from .ga_event_tag_provider import GAEventTagProvider
 
 from ..service import get_key_file_location
 from .ga_pageview_tag_provider import GAPageviewTagProvider
@@ -36,4 +35,5 @@ class GAEventTag(Resource):
             "event_action": event_action,
             "event_value": event_value
         }
+
         super().__init__(GAEventTagProvider(), name, full_args, opts)

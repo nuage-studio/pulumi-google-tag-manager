@@ -9,55 +9,53 @@ SCOPES = [
 ]
 
 
-class GAPageviewTagProvider(ResourceProvider):
+class PageviewTriggerProvider(ResourceProvider):
     def create(self, props):
         service = get_service("tagmanager", "v2", SCOPES, props['key_location'])
-        tag_body = self._get_tag_body(props)
-
-        tag = (
+        trigger_body = self._get_trigger_body(props)
+        
+        trigger = (
             service.accounts()
             .containers()
             .workspaces()
-            .tags()
-            .create(parent=props["workspace_path"], body=tag_body)
+            .triggers()
+            .create(parent=props["workspace_path"], body=trigger_body)
             .execute()
         )
 
-        return CreateResult(id_=props["workspace_path"], outs={**props, **tag})
+        return CreateResult(id_=props["workspace_path"], outs={
+            **props,
+            **trigger,
+            "trigger_id": trigger["triggerId"]
+        })
 
     def update(self, id, _olds, props):
         service = get_service("tagmanager", "v2", SCOPES, props['key_location'])
-        tag_body = self._get_tag_body(props)
-        tag = (
+        trigger_body = self._get_trigger_body(props)
+        trigger = (
             service.accounts()
             .containers()
             .workspaces()
-            .tags()
-            .update(path=_olds["path"], body=tag_body)
+            .triggers()
+            .update(path=_olds["path"], body=trigger_body)
             .execute()
         )
 
-        return UpdateResult(outs={**props, **tag})
+        return UpdateResult(outs={
+            **props,
+            **trigger,
+            "trigger_id": trigger["triggerId"]
+        })
 
     def delete(self, id, props):
         service = get_service("tagmanager", "v2", SCOPES, props['key_location'])
-        service.accounts().containers().workspaces().tags().delete(
+        service.accounts().containers().workspaces().triggers().delete(
             path=props["path"]
         ).execute()
-    
-    def _get_tag_body(self, props):
 
-        tag_body = {
-            "name": props["tag_name"],
-            "type": "ua",
-            "parameter": [
-                {
-                    "key": "trackingId",
-                    "type": "template",
-                    "value": str(props["tracking_id"]),
-                }
-            ],
-            "firingTriggerId": props["firing_trigger_id"]
+
+    def _get_trigger_body(self, props):
+        return {
+            "name": props["trigger_name"],
+            "type": "pageview"
         }
-
-        return tag_body
