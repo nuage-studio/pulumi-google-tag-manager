@@ -48,10 +48,12 @@ class CustomEventTriggerProvider(ResourceProvider):
         })
 
     def delete(self, id, props):
-        service = get_service("tagmanager", "v2", SCOPES, props['key_location'])
-        service.accounts().containers().workspaces().triggers().delete(
-            path=props["path"]
-        ).execute()
+        service = get_service("tagmanager", "v1", SCOPES, props['key_location'])
+        service.accounts().containers().triggers().delete(
+            accountId=props["accountId"],
+            containerId=props["containerId"],
+            triggerId=props["triggerId"],
+        )
 
 
     def _get_trigger_body(self, props):

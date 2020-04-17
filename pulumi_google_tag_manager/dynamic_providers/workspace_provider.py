@@ -37,7 +37,13 @@ class WorkspaceProvider(ResourceProvider):
 
     def delete(self, id, props):
         service = get_service("tagmanager", "v2", SCOPES, props['key_location'])
-        service.accounts().containers().workspaces().delete(
-            path=props["path"]
-        ).execute()
+
+        try:
+            service.accounts().containers().workspaces().delete(
+                path=props["path"]
+            ).execute()
+        except Exception as error:
+            # Workspaces can be deleted through other means (e.g. creating a version from them),
+            # so we soft-delete to prevent failures
+            pass
 

@@ -48,10 +48,12 @@ class DataLayerVariableProvider(ResourceProvider):
         })
 
     def delete(self, id, props):
-        service = get_service("tagmanager", "v2", SCOPES, props['key_location'])
-        service.accounts().containers().workspaces().variables().delete(
-            path=props["path"]
-        ).execute()
+        service = get_service("tagmanager", "v1", SCOPES, props['key_location'])
+        service.accounts().containers().variables().delete(
+            accountId=props["accountId"],
+            containerId=props["containerId"],
+            variableId=props["variableId"],
+        )
 
 
     def _get_variable_body(self, props):

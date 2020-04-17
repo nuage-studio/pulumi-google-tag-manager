@@ -41,11 +41,12 @@ class GAEventTagProvider(ResourceProvider):
         return UpdateResult(outs={**props, **tag})
 
     def delete(self, id, props):
-        service = get_service("tagmanager", "v2", SCOPES, props['key_location'])
-        service.accounts().containers().workspaces().tags().delete(
-            path=props["path"]
-        ).execute()
-
+        service = get_service("tagmanager", "v1", SCOPES, props['key_location'])
+        service.accounts().containers().tags().delete(
+            accountId=props["accountId"],
+            containerId=props["containerId"],
+            tagId=props["tagId"],
+        )
 
     def get_tag_body(self, props):
         return {
