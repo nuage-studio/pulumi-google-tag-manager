@@ -8,3 +8,4 @@ from .data_layer_variable import DataLayerVariable
 from .ga_event_tag import GAEventTag
 from .ga_pageview_tag import GAPageviewTag
 from .pageview_trigger import PageviewTrigger
+from .publish import Publish

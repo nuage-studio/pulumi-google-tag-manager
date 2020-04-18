@@ -1,9 +1,11 @@
 import pulumi
+from pulumi.resource import ResourceOptions
+
 from pulumi_google_analytics.dynamic_providers import (WebProperty,
                                                        WebPropertyArgs)
 from pulumi_google_tag_manager.dynamic_providers import (Container,
                                                          ContainerArgs, Tag,
-                                                         TagArgs, Workspace,
+                                                         Workspace,
                                                          WorkspaceArgs)
 from pulumi_google_tag_manager.dynamic_providers.custom_event_trigger import \
     CustomEventTrigger
@@ -13,9 +15,13 @@ from pulumi_google_tag_manager.dynamic_providers.data_layer_variable import \
     DataLayerVariable
 from pulumi_google_tag_manager.dynamic_providers.ga_event_tag import GAEventTag
 from pulumi_google_tag_manager.dynamic_providers.ga_pageview_tag import (
-    GAPageviewTag, GaPageviewTagArgs)
+    GAPageviewTag)
 from pulumi_google_tag_manager.dynamic_providers.pageview_trigger import \
     PageviewTrigger
+from pulumi_google_tag_manager.dynamic_providers.publish import Publish
+
+from pulumi_google_tag_manager.dynamic_providers.version import Version
+
 
 config = pulumi.Config()
 
@@ -31,6 +37,7 @@ web_property = WebProperty(
         site_url="https://example.com",
     ),
 )
+
 
 # create gtm container
 container = Container(
@@ -56,12 +63,10 @@ pageview_trigger = PageviewTrigger("example-pageview-trigger",
 # creates GA pageview tag inside workspace
 pageview_tag = GAPageviewTag(
     "example-pageview-tag",
-    args=GaPageviewTagArgs(
-        workspace_path=workspace.path,
-        tag_name="my-pageview-tag",
-        tracking_id=web_property.tracking_id,
-        firing_trigger_id=pageview_trigger.trigger_id
-    ),
+    workspace_path=workspace.path,
+    tag_name="my-pageview-tag",
+    tracking_id=web_property.tracking_id,
+    firing_trigger_id=pageview_trigger.trigger_id
 )
 
 custom_event_trigger = CustomEventTrigger("custom-event-trigger",
@@ -97,9 +102,16 @@ variable = DataLayerVariable("data-layer-var",
     workspace_path=workspace.path
 )
 
+publish = Publish("publish",
+    workspace_path=workspace.path,
+    opts=ResourceOptions(depends_on=[
+        container, workspace, pageview_trigger, pageview_tag, custom_event_trigger, custom_tag, event_tag, variable
+    ])
+)
 
 pulumi.export("container_id", container.container_id)
 pulumi.export("custom_event_trigger_id", custom_event_trigger.trigger_id)
 pulumi.export("data_layer_variable_id", variable.variable_id)
 pulumi.export("gtm_tag", container.gtm_tag)
 pulumi.export("gtm_tag_no_script", container.gtm_tag_noscript)
+pulumi.export("container_version_path", publish.container_version_path)
