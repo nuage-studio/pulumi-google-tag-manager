@@ -6,6 +6,28 @@ This project contains a pip packaged named `pulumi-google-tag-manager` which all
 
 An example Pulumi program which uses this package is present in the `example` folder.
 
+The following resources have been implemented:
+
+- [ ] Accounts
+- [x] Containers
+- [x] Workspaces
+- [x] Tags
+- - [x] Google Analytics Pageview
+- - [x] Google Analytics Event
+- - [x] Custom HTML
+- [x] Triggers
+- - [x] Custom Event
+- - [x] Pageview
+- [ ] Folders
+- [ ] Built-In Variables
+- [x] Variables
+- - [x] Data Layer
+- [ ] Container Versions
+- [ ] Container Version Headers
+- [ ] User Permissions
+- [ ] Environments
+
+
 ## Prerequesits
 
 * Install the package into your Pulumi project using `pip`
