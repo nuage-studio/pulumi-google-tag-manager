@@ -4,7 +4,7 @@ from pulumi.resource import ResourceOptions
 from pulumi_google_analytics.dynamic_providers import (WebProperty,
                                                        WebPropertyArgs)
 from pulumi_google_tag_manager.dynamic_providers import (Container,
-                                                         ContainerArgs, Tag,
+                                                         ContainerArgs,
                                                          Workspace,
                                                          WorkspaceArgs)
 from pulumi_google_tag_manager.dynamic_providers.custom_event_trigger import \

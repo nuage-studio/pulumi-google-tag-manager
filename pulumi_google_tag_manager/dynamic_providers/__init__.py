@@ -1,6 +1,5 @@
 from .workspace import WorkspaceArgs
 from .container import Container, ContainerArgs
-from .tag import Tag, TagArgs
 from .workspace import Workspace, WorkspaceArgs
 from .custom_event_trigger import CustomEventTrigger
 from .custom_html_tag import CustomHtmlTag, CustomHtmlTagArgs
