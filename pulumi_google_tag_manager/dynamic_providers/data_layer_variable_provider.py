@@ -62,16 +62,19 @@ class DataLayerVariableProvider(ResourceProvider):
             "type": "v",
             "parameter": [
                 {
+                    # The version of the GTM data layer which is being used
                     "type": "integer",
                     "key": "dataLayerVersion",
                     "value": "2"
                 },
                 {
+                    # The variable has no default value
                     "type": "boolean",
                     "key": "setDefaultValue",
                     "value": "false"
                 },
                 {
+                    # The name of the variable in the JS code
                     "type": "template",
                     "key": "name",
                     "value": props["variable_name"]

@@ -54,36 +54,45 @@ class GAEventTagProvider(ResourceProvider):
             "type": "ua",
             "parameter": [
                 {
+                    # Whether or not the tag is considered an interation for computing the
+                    # bounce rate.  See https://support.google.com/analytics/answer/1033068#NonInteractionEvents
                     "type": "boolean",
                     "key": "nonInteraction",
                     "value": "false"
                 },
                 {
+                    # GA tracking code should not come from a settings variable, but from
+                    # the `trackingId` attribute below
                     "type": "boolean",
                     "key": "overrideGaSettings",
                     "value": "true"
                 },
                 {
+                    # The value associated with the event
                     "type": "template",
                     "key": "eventValue",
                     "value": props["event_value"]
                 },
                 {
+                    # The category to register the event against on GA
                     "type": "template",
                     "key": "eventCategory",
                     "value": props["event_category"]
                 },
                 {
+                    # This is a GA event which is being triggered
                     "type": "template",
                     "key": "trackType",
                     "value": "TRACK_EVENT"
                 },
                 {
+                    # The action with the event is registered against on GA
                     "type": "template",
                     "key": "eventAction",
                     "value": props["event_action"]
                 },
                 {
+                    # The GA tracking ID
                     "type": "template",
                     "key": "trackingId",
                     "value": str(props["tracking_id"])
